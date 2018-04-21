@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+      <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body ng-app="myApp" ng-controller="myCtrl">
+      <div class="row">
+        <div class="col s2"></div>
+        <div class="col s8">
+					<h4 style="color:#2ca7c9;" class="center">Edit Contact</h4><hr>
+					<form method="post" action="edit">
+		          <div class="row">
+			            <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+			              <input id="first_name" type="text" class="validate" name="fname" value="{{contact.firstname}}">
+			              <label for="first_name">First Name</label>
+			            </div>
+			            <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+			              <input id="last_name" type="text" class="validate" name="lname" value="{{contact.lastname}}">
+			              <label for="last_name">Last Name</label>
+			            </div>
+          	</div>
+	          <div class="row">
+		            <div class="input-field col s12">
+                  <i class="material-icons prefix">phone</i>
+		              <input id="mobile" type="text" class="validate" name="mobile" value="{{contact.mobile}}">
+		              <label for="mobile">Mobile No</label>
+		            </div>
+	          </div>
+	          <div class="row">
+		            <div class="input-field col s12">
+                  <i class="material-icons prefix">email</i>
+		              <input id="email" type="email" class="validate" name="email" value="{{contact.email}}">
+		              <label for="email">Email</label>
+		            </div>
+          	</div>
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">add_location</i>
+                <textarea id="address" class="materialize-textarea" name="address" value="{{contact.address}}"></textarea>
+                <label for="address">Address</label>
+              </div>
+            </div>
+						<div class="center">
+				        <button class="btn waves-effect waves-light red darken-1" type="reset" name="action">Reset</button>
+				        <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-left:10px;">Update</button>
+		      	</div>
+        </form>
+	    	</div>
+	      <div class="col s2"></div>
+      </div>
+
+      <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script>
+        var app = angular.module("myApp",[]);
+        app.controller("myCtrl",function($scope,myService) {
+        	myService.ajaxCallMe('http://localhost:3000/user.json').then(success,error);
+            function success(response){
+        			$scope.contact = response.data;
+        		};
+
+            function error(response){
+        			console.log("Error",response);
+        		};
+        });
+        app.service("myService",function($http) {
+        	this.ajaxCallMe=function(dataUrl){
+        		return $http({
+        			method:'GET',
+        			url:dataUrl
+        		});
+        	};
+        });
+      </script>
+
+    </body>
+  </html>

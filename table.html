@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+      <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body ng-app="myApp" ng-controller="myCtrl">
+
+      <div class="row">
+        <div class="col s2"></div>
+        <div class="col s8">
+          <h3 class="center">Contact Information</h3>
+          <center><a class="btn-floating btn-large waves-effect waves-light red" href="contact"><i class="material-icons">add</i></a></center>
+          <hr>
+          <table class="highlight">
+            <thead>
+              <tr>
+                  <th>S. No.</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>Address</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat = "x in contact">
+                <td>{{ $index + 1 }}</td>
+                <td>{{ x.firstname | uppercase}} {{ x.lastname | uppercase}}</td>
+                <td>{{ x.mobile }}</td>
+                <td>{{ x.email }}</td>
+                <td>{{ x.address }}</td>
+                <td>
+                  <!-- <a class="btn waves-effect waves-light" href="contact/edit/{{x.cid}}" >Edit</a> -->
+                  <a class="btn waves-effect waves-light red darken-1" href="contact/delete/{{x.cid}}">Delete</a>
+                  <!-- <button class="btn waves-effect waves-light " type="button"><a href="edit/"+{{ x.id}}+"">Edit</a></button>
+                  <button class="btn waves-effect waves-light red darken-1" type="button" style="margin-left:10px;"><a href="delete/"+{{ x.id}}+"">Delete</a></button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col s2"></div>
+      </div>
+
+      <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script>
+    var app = angular.module('myApp', []);
+      app.controller('myCtrl', function($scope, $http) {
+        $http.get("datat")
+        .then(function(response) {
+            $scope.contact = response.data;
+            console.log(response.data);
+        }, function(response) {
+            $scope.contact = {};
+        });
+      });
+      function edit(id){
+        window.localStorage.setItem("id",id);
+        window.location.href="http://localhost:3000/edit";
+      }
+    </script>
+    </body>
+  </html>
